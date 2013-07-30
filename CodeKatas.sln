@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplayTree.Tests", "splay-tree\csharp\CodeKatas\SplayTree.Tests\SplayTree.Tests.csproj", "{9CC0AF44-FBE3-4165-B778-7C5F3235CA11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplayTree", "splay-tree\csharp\CodeKatas\SplayTree\SplayTree.csproj", "{5A091686-A9B5-420B-A249-29E934CC3F58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9CC0AF44-FBE3-4165-B778-7C5F3235CA11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CC0AF44-FBE3-4165-B778-7C5F3235CA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CC0AF44-FBE3-4165-B778-7C5F3235CA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CC0AF44-FBE3-4165-B778-7C5F3235CA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A091686-A9B5-420B-A249-29E934CC3F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A091686-A9B5-420B-A249-29E934CC3F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A091686-A9B5-420B-A249-29E934CC3F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A091686-A9B5-420B-A249-29E934CC3F58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
