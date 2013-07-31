@@ -14,45 +14,97 @@ namespace SplayTree
         {
         }
 
-        public SplayTree(T[] range)
+        public SplayTree(T[] values)
         {
-            _root = new Node<T>();
-            BuildTreeFromRange(_root, range);
+            _root = BuildTreeFromRange(values);
         }
 
-        private void BuildTreeFromRange(Node<T> newNode, T[] range)
+        private Node<T> BuildTreeFromRange(T[] values)
         {
             //todo: sort the list first
-            if (range.Length == 0) return;
+            if (values.Length == 0) return null;
 
-            var middle = range.Length / 2;
-            newNode.Value = range[middle];
+            var middle = values.Length / 2;
+            var newNode = new Node<T>(values[middle]);
 
-            newNode.Right = new Node<T>();
-            var rightSubtree = range.Skip(middle)
-                                    .Take(range.Length - middle - 1)
+            var rightSubtree = values.Skip(middle + 1)
+                                    .Take(values.Length - middle + 1)
                                     .ToArray();
-            BuildTreeFromRange(newNode.Right, rightSubtree);
+            newNode.Right = BuildTreeFromRange(rightSubtree);
 
-            newNode.Left = new Node<T>();
-            var leftSubtree = range.Take(middle - 1).ToArray();
-            BuildTreeFromRange(newNode.Left, leftSubtree);
+            var leftSubtree = values.Take(middle).ToArray();
+            newNode.Left = BuildTreeFromRange(leftSubtree);
+
+            return newNode;
         }
 
         public Node<T> Search(T value)
         {
-            return Search(_root, value);
-        }
-
-        private Node<T> Search(Node<T> currentNode, T value)
-        {
-            if (currentNode == null) return null;
-            if (value.CompareTo(currentNode.Value) == 0) return currentNode;
-            if (value.CompareTo(currentNode.Value) < 0) return Search(currentNode.Left, value);
-            if (value.CompareTo(currentNode.Value) > 0) return Search(currentNode.Right, value);
+            var current = _root;
+            while (current != null)
+            {
+                var comparsionResult = value.CompareTo(current.Value);
+                if (comparsionResult == 0) return current;
+                if (comparsionResult < 0) current = current.Left;
+                if (comparsionResult > 0) current = current.Right;
+            }
 
             return null;
         }
+
+        private string PrintTreeInOrder(Node<T> current, StringBuilder builder)
+        {
+            if (current.Left != null) PrintTreeInOrder(current.Left, builder);
+            builder.Append(current.Value);
+            if(current.Right != null) PrintTreeInOrder(current.Right, builder);
+
+            return builder.ToString();
+        }
+
+        private string PrintTreePreOrder(Node<T> current, StringBuilder builder)
+        {
+            builder.Append(current.Value);
+            if (current.Left != null) PrintTreePreOrder(current.Left, builder);
+            if (current.Right != null) PrintTreePreOrder(current.Right, builder);
+
+            return builder.ToString();
+        }
+
+        private string PrintTreePostOrder(Node<T> current, StringBuilder builder)
+        {
+            if (current.Left != null) PrintTreePostOrder(current.Left, builder);
+            if (current.Right != null) PrintTreePostOrder(current.Right, builder);
+            builder.Append(current.Value);
+
+            return builder.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ToString(TreeTraversal.InOrder);
+        }
+
+        public string ToString(TreeTraversal travesalMethod)
+        {
+            switch (travesalMethod)
+            {
+                case TreeTraversal.InOrder:
+                    return PrintTreeInOrder(_root, new StringBuilder());
+                case TreeTraversal.PreOrder:
+                    return PrintTreePreOrder(_root, new StringBuilder());
+                case TreeTraversal.PostOrder:
+                    return PrintTreePostOrder(_root, new StringBuilder());
+                default:
+                    return PrintTreeInOrder(_root, new StringBuilder());
+            }
+        }
+    }
+
+    public enum TreeTraversal
+    {
+        InOrder,
+        PreOrder,
+        PostOrder
     }
 
     public class Node<T>
@@ -60,5 +112,10 @@ namespace SplayTree
         public T Value { get; set; }
         public Node<T> Left { get; set; }
         public Node<T> Right { get; set; }
+
+        public Node(T value)
+        {
+            Value = value;
+        }
     }
 }
