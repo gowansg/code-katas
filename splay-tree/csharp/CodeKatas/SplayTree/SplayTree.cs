@@ -45,38 +45,88 @@ namespace SplayTree
             {
                 var comparsionResult = value.CompareTo(current.Value);
                 if (comparsionResult == 0) return current;
-                if (comparsionResult < 0) current = current.Left;
-                if (comparsionResult > 0) current = current.Right;
+
+                current = comparsionResult < 0 ? current.Left : current.Right;
             }
 
             return null;
         }
 
-        private string PrintTreeInOrder(Node<T> current, StringBuilder builder)
+        private string PrintTreeInOrder(Node<T> current, List<T> builder)
         {
             if (current.Left != null) PrintTreeInOrder(current.Left, builder);
-            builder.Append(current.Value);
+            
+            builder.Add(current.Value);
+
             if(current.Right != null) PrintTreeInOrder(current.Right, builder);
 
-            return builder.ToString();
+            return String.Join(",", builder);
         }
 
-        private string PrintTreePreOrder(Node<T> current, StringBuilder builder)
+        private string PrintTreePreOrder(Node<T> current, List<T> builder)
         {
-            builder.Append(current.Value);
+            builder.Add(current.Value);
+            
             if (current.Left != null) PrintTreePreOrder(current.Left, builder);
             if (current.Right != null) PrintTreePreOrder(current.Right, builder);
 
-            return builder.ToString();
+            return String.Join(",", builder);
         }
 
-        private string PrintTreePostOrder(Node<T> current, StringBuilder builder)
+        private string PrintTreePostOrder(Node<T> current, List<T> builder)
         {
             if (current.Left != null) PrintTreePostOrder(current.Left, builder);
             if (current.Right != null) PrintTreePostOrder(current.Right, builder);
-            builder.Append(current.Value);
+            
+            builder.Add(current.Value);
 
-            return builder.ToString();
+            return String.Join(",", builder);
+        }
+
+        public IEnumerable<Node<T>> Traverse(TreeTraversal traversal)
+        {
+            switch (traversal)
+            {
+                case TreeTraversal.InOrder:
+                    return InOrderTraversal(_root);
+                case TreeTraversal.PreOrder:
+                    return PreOrderTraversal(_root);
+                case TreeTraversal.PostOrder:
+                    return PostOrderTraversal(_root);
+                default:
+                    return null;
+            }
+        }
+
+        private IEnumerable<Node<T>> InOrderTraversal(Node<T> current)
+        {
+            if (current.Left != null)
+                foreach (var node in InOrderTraversal(current.Left)) yield return node;
+
+            yield return current;
+
+            if (current.Right != null) 
+                foreach (var node in InOrderTraversal(current.Right)) yield return node;
+        }
+
+        private IEnumerable<Node<T>>PreOrderTraversal(Node<T> current)
+        {
+            yield return current;
+            
+            if (current.Left != null)
+                foreach (var node in PreOrderTraversal(current.Left)) yield return node;
+            if (current.Right != null)
+                foreach (var node in PreOrderTraversal(current.Right)) yield return node;
+        }
+
+        private IEnumerable<Node<T>> PostOrderTraversal(Node<T> current)
+        {
+            if (current.Left != null)
+                foreach (var node in PostOrderTraversal(current.Left)) yield return node;
+            if (current.Right != null)
+                foreach (var node in PostOrderTraversal(current.Right)) yield return node;
+            
+            yield return current;
         }
 
         public override string ToString()
@@ -84,18 +134,19 @@ namespace SplayTree
             return ToString(TreeTraversal.InOrder);
         }
 
-        public string ToString(TreeTraversal travesalMethod)
+        public string ToString(TreeTraversal traversalMethod)
         {
-            switch (travesalMethod)
+            var list = new List<T>();
+            switch (traversalMethod)
             {
                 case TreeTraversal.InOrder:
-                    return PrintTreeInOrder(_root, new StringBuilder());
+                    return PrintTreeInOrder(_root, list);
                 case TreeTraversal.PreOrder:
-                    return PrintTreePreOrder(_root, new StringBuilder());
+                    return PrintTreePreOrder(_root, list);
                 case TreeTraversal.PostOrder:
-                    return PrintTreePostOrder(_root, new StringBuilder());
+                    return PrintTreePostOrder(_root, list);
                 default:
-                    return PrintTreeInOrder(_root, new StringBuilder());
+                    return PrintTreeInOrder(_root, list);
             }
         }
     }
