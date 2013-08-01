@@ -16,10 +16,10 @@ namespace SplayTree
 
         public SplayTree(T[] values)
         {
-            _root = BuildTreeFromRange(values);
+            _root = BuildTreeFromValues(values);
         }
 
-        private Node<T> BuildTreeFromRange(T[] values)
+        private Node<T> BuildTreeFromValues(T[] values)
         {
             //todo: sort the list first
             if (values.Length == 0) return null;
@@ -30,10 +30,10 @@ namespace SplayTree
             var rightSubtree = values.Skip(middle + 1)
                                     .Take(values.Length - middle + 1)
                                     .ToArray();
-            newNode.Right = BuildTreeFromRange(rightSubtree);
+            newNode.Right = BuildTreeFromValues(rightSubtree);
 
             var leftSubtree = values.Take(middle).ToArray();
-            newNode.Left = BuildTreeFromRange(leftSubtree);
+            newNode.Left = BuildTreeFromValues(leftSubtree);
 
             return newNode;
         }
@@ -52,37 +52,6 @@ namespace SplayTree
             return null;
         }
 
-        private string PrintTreeInOrder(Node<T> current, List<T> builder)
-        {
-            if (current.Left != null) PrintTreeInOrder(current.Left, builder);
-            
-            builder.Add(current.Value);
-
-            if(current.Right != null) PrintTreeInOrder(current.Right, builder);
-
-            return String.Join(",", builder);
-        }
-
-        private string PrintTreePreOrder(Node<T> current, List<T> builder)
-        {
-            builder.Add(current.Value);
-            
-            if (current.Left != null) PrintTreePreOrder(current.Left, builder);
-            if (current.Right != null) PrintTreePreOrder(current.Right, builder);
-
-            return String.Join(",", builder);
-        }
-
-        private string PrintTreePostOrder(Node<T> current, List<T> builder)
-        {
-            if (current.Left != null) PrintTreePostOrder(current.Left, builder);
-            if (current.Right != null) PrintTreePostOrder(current.Right, builder);
-            
-            builder.Add(current.Value);
-
-            return String.Join(",", builder);
-        }
-
         public IEnumerable<Node<T>> Traverse(TreeTraversal traversal)
         {
             switch (traversal)
@@ -94,8 +63,18 @@ namespace SplayTree
                 case TreeTraversal.PostOrder:
                     return PostOrderTraversal(_root);
                 default:
-                    return null;
+                    throw new Exception(String.Format("'{0}' is not a recognized traversal method.", traversal));
             }
+        }
+
+        public override string ToString()
+        {
+            return ToString(TreeTraversal.InOrder);
+        }
+
+        public string ToString(TreeTraversal traversalMethod)
+        {
+            return String.Join(",", Traverse(traversalMethod).Select(n => n.Value));
         }
 
         private IEnumerable<Node<T>> InOrderTraversal(Node<T> current)
@@ -127,27 +106,6 @@ namespace SplayTree
                 foreach (var node in PostOrderTraversal(current.Right)) yield return node;
             
             yield return current;
-        }
-
-        public override string ToString()
-        {
-            return ToString(TreeTraversal.InOrder);
-        }
-
-        public string ToString(TreeTraversal traversalMethod)
-        {
-            var list = new List<T>();
-            switch (traversalMethod)
-            {
-                case TreeTraversal.InOrder:
-                    return PrintTreeInOrder(_root, list);
-                case TreeTraversal.PreOrder:
-                    return PrintTreePreOrder(_root, list);
-                case TreeTraversal.PostOrder:
-                    return PrintTreePostOrder(_root, list);
-                default:
-                    return PrintTreeInOrder(_root, list);
-            }
         }
     }
 
