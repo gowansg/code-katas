@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SplayTree
 {
@@ -16,29 +14,32 @@ namespace SplayTree
 
         public SplayTree(T[] values)
         {
-            _root = BuildTreeFromValues(values);
+            _root = BuildTreeFromValues(values, null);
         }
 
-        private Node<T> BuildTreeFromValues(T[] values)
+        private Node<T> BuildTreeFromValues(T[] values, Node<T> parent)
         {
             //todo: sort the list first
             if (values.Length == 0) return null;
 
-            var middle = values.Length / 2;
-            var newNode = new Node<T>(values[middle]);
+            var middle = values.Length/2;
+            var newNode = new Node<T>(values[middle])
+                              {
+                                  Parent = parent
+                              };
 
             var rightSubtree = values.Skip(middle + 1)
-                                    .Take(values.Length - middle + 1)
-                                    .ToArray();
-            newNode.Right = BuildTreeFromValues(rightSubtree);
+                                     .Take(values.Length - middle + 1)
+                                     .ToArray();
+            newNode.Right = BuildTreeFromValues(rightSubtree, newNode);
 
             var leftSubtree = values.Take(middle).ToArray();
-            newNode.Left = BuildTreeFromValues(leftSubtree);
+            newNode.Left = BuildTreeFromValues(leftSubtree, newNode);
 
             return newNode;
         }
 
-        public Node<T> Search(T value)
+        private Node<T> Search(T value)
         {
             var current = _root;
             while (current != null)
@@ -50,6 +51,52 @@ namespace SplayTree
             }
 
             return null;
+        }
+
+        public Node<T> Find(T value)
+        {
+            var node = Search(value);
+            Splay(node);
+            return node;
+        }
+
+        private void Splay(Node<T> node)
+        {
+            if (node == null) return;
+
+            while (node != _root)
+                node = node.Parent.Left == node ? RotateRight(node) : RotateLeft(node);
+        }
+
+        private Node<T> RotateRight(Node<T> pivot)
+        {
+            return Rotate(pivot, false);
+        }
+
+        private Node<T> RotateLeft(Node<T> pivot)
+        {
+            return Rotate(pivot, true);
+        }
+
+        private Node<T> Rotate(Node<T> pivot, bool rotateLeft)
+        {
+            var parent = pivot.Parent;
+            if (parent == _root) _root = pivot;
+
+            if (rotateLeft)
+            {
+                parent.Right = pivot.Left;
+                pivot.Left = parent;
+            }
+            else
+            {
+                parent.Left = pivot.Right;
+                pivot.Right = parent;
+            }
+
+            pivot.Parent = parent.Parent;
+            parent.Parent = pivot;
+            return pivot;
         }
 
         public IEnumerable<Node<T>> Traverse(TreeTraversal traversal)
@@ -106,25 +153,6 @@ namespace SplayTree
                 foreach (var node in PostOrderTraversal(current.Right)) yield return node;
             
             yield return current;
-        }
-    }
-
-    public enum TreeTraversal
-    {
-        InOrder,
-        PreOrder,
-        PostOrder
-    }
-
-    public class Node<T>
-    {
-        public T Value { get; set; }
-        public Node<T> Left { get; set; }
-        public Node<T> Right { get; set; }
-
-        public Node(T value)
-        {
-            Value = value;
         }
     }
 }

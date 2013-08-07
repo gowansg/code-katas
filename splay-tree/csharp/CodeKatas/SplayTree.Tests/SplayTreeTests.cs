@@ -18,7 +18,8 @@ namespace SplayTree.Tests
             public void ReturnsASplayTreeContainingAllTheElementsInTheArray()
             {
                 var tree = new SplayTree<int>(Enumerable.Range(0, 256).ToArray());
-                for (int i = 0; i < 256; i++) Assert.IsNotNull(tree.Search(i));
+                var nodes = tree.ToString().Split(',').Select(int.Parse).ToArray();
+                for (int i = 0; i < 256; i++) Assert.AreEqual(i, nodes[i]);
             }
         }
         
@@ -110,6 +111,22 @@ namespace SplayTree.Tests
                 }
 
                 Assert.AreEqual(10, count);
+            }
+        }
+
+        [TestFixture]
+        public class TheFindMethod
+        {
+            [Test]
+            public void PlacesTheMostRecentlySearchedNodeAtTheRootOfTheTree()
+            {
+                var tree = new SplayTree<int>(Enumerable.Range(1, 10).ToArray());
+                var root = tree.ToString(TreeTraversal.PreOrder).First();
+                Assert.AreNotEqual('1', root);
+                
+                tree.Find(1);
+                root = tree.ToString(TreeTraversal.PreOrder).First();
+                Assert.AreEqual('1', root);
             }
         }
     }
