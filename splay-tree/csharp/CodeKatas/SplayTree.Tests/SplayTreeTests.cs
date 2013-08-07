@@ -61,16 +61,16 @@ namespace SplayTree.Tests
         public class TheTraverseMethod
         {
             private SplayTree<int> _tree = new SplayTree<int>(Enumerable.Range(1, 10).ToArray());
-            
-            [Test]
-            public void CanIterateThroughTheTreeUsingInOrderTraversal()
+
+            private void TraverseUsing(TreeTraversal traversal)
             {
-                var expectedValues = _tree.ToString(TreeTraversal.InOrder)
-                                          .Split(',')
-                                          .Select(int.Parse)
-                                          .ToArray();
+                var expectedValues = _tree.ToString(traversal)
+                           .Split(',')
+                           .Select(int.Parse)
+                           .ToArray();
+
                 var count = 0;
-                foreach (var node in _tree.Traverse(TreeTraversal.InOrder))
+                foreach (var node in _tree.Traverse(traversal))
                 {
                     Assert.AreEqual(expectedValues[count], node.Value);
                     count++;
@@ -80,37 +80,21 @@ namespace SplayTree.Tests
             }
 
             [Test]
+            public void CanIterateThroughTheTreeUsingInOrderTraversal()
+            {
+                TraverseUsing(TreeTraversal.InOrder);
+            }
+
+            [Test]
             public void CanIterateThroughTheTreeUsingPreOrderTraversal()
             {
-                var expectedValues = _tree.ToString(TreeTraversal.PreOrder)
-                                          .Split(',')
-                                          .Select(int.Parse)
-                                          .ToArray();
-                var count = 0;
-                foreach (var node in _tree.Traverse(TreeTraversal.PreOrder))
-                {
-                    Assert.AreEqual(expectedValues[count], node.Value);
-                    count++;
-                }
-
-                Assert.AreEqual(10, count);
+                TraverseUsing(TreeTraversal.PreOrder);
             }
 
             [Test]
             public void CanIterateThroughTheTreeUsingPostOrderTraversal()
             {
-                var expectedValues = _tree.ToString(TreeTraversal.PostOrder)
-                                          .Split(',')
-                                          .Select(int.Parse)
-                                          .ToArray();
-                var count = 0;
-                foreach (var node in _tree.Traverse(TreeTraversal.PostOrder))
-                {
-                    Assert.AreEqual(expectedValues[count], node.Value);
-                    count++;
-                }
-
-                Assert.AreEqual(10, count);
+                TraverseUsing(TreeTraversal.PostOrder);
             }
         }
 
