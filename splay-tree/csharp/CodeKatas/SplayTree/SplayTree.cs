@@ -23,10 +23,7 @@ namespace SplayTree
             if (values.Length == 0) return null;
 
             var middle = values.Length/2;
-            var newNode = new Node<T>(values[middle])
-                              {
-                                  Parent = parent
-                              };
+            var newNode = new Node<T>(values[middle]);
 
             var rightSubtree = values.Skip(middle + 1)
                                      .Take(values.Length - middle + 1)
@@ -55,35 +52,27 @@ namespace SplayTree
 
         public Node<T> Find(T value)
         {
-            var node = Search(value);
-            Splay(node);
-            return node;
+            return Find(_root, value);
         }
 
-        private void Splay(Node<T> node)
+        private Node<T> Find(Node<T> node, T value)
         {
-            if (node == null) return;
+            var comparisonResult = value.CompareTo(node.Value);
 
-            while (node != _root)
-                node = node.Parent.Left == node ? RotateRight(node) : RotateLeft(node);
+            if (comparisonResult == 0) return node;
+
+            var pivot = comparisonResult < 0 
+                ? Find(node.Left, value) 
+                : Find(node.Right, value);
+
+            return Rotate(node, pivot);
         }
 
-        private Node<T> RotateRight(Node<T> pivot)
+        private Node<T> Rotate(Node<T> parent, Node<T> pivot)
         {
-            return Rotate(pivot, false);
-        }
-
-        private Node<T> RotateLeft(Node<T> pivot)
-        {
-            return Rotate(pivot, true);
-        }
-
-        private Node<T> Rotate(Node<T> pivot, bool rotateLeft)
-        {
-            var parent = pivot.Parent;
             if (parent == _root) _root = pivot;
 
-            if (rotateLeft)
+            if (parent.Right == pivot) // then rotate left
             {
                 parent.Right = pivot.Left;
                 pivot.Left = parent;
@@ -94,8 +83,6 @@ namespace SplayTree
                 pivot.Right = parent;
             }
 
-            pivot.Parent = parent.Parent;
-            parent.Parent = pivot;
             return pivot;
         }
 
