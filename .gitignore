@@ -149,3 +149,27 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+##Ruby.gitignore
+*.gem
+*.rbc
+
+#bundler
+.bundle
+Gemfile.*
+
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
