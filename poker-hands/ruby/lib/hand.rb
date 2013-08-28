@@ -8,6 +8,7 @@ module Poker
 
     def rank
       return @rank if @rank
+
     end
   end
 end
