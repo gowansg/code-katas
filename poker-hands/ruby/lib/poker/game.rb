@@ -8,8 +8,8 @@ module Poker
       @players = players
     end
 
-    def hands()
-      
-    end
+    def declare_winner
+      "#{winner} wins. - with #{hand}"
+    end 
   end
 end

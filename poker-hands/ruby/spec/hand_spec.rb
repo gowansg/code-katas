@@ -1,7 +1,12 @@
-require_relative "../lib/hand"
+require_relative "../lib/poker"
 
 describe Poker::Hand do
-  let(:hand) { Poker::Hand.new(%w(2C 3D 5S 9C KD)) }
+  let(:hand) do 
+    cards = []
+    deck = Poker::Deck.new
+    5.times { cards << deck.deal }
+    Poker::Hand.new(cards)
+  end
 
   it "has exactly 5 cards" do
     expect(hand.cards.length).to eql(5)

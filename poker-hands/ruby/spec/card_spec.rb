@@ -1,7 +1,7 @@
-require_relative "../lib/card"
+require_relative "../lib/poker"
 
 describe Poker::Card do
-  let(:card) { Poker::Card.new(13, :diamond) }
+  let(:card) { Poker::Card.new(:diamond, 13) }
 
   it "has a suit" do
     expect(card.suit).to eql(:diamond)
