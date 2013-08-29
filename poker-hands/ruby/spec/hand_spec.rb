@@ -1,11 +1,12 @@
 require_relative "../lib/poker"
+include Poker
 
-describe Poker::Hand do
+describe Hand do
   let(:hand) do 
     cards = []
-    deck = Poker::Deck.new
-    5.times { cards << deck.deal }
-    Poker::Hand.new(cards)
+    deck = Deck.new
+    7.times { cards << deck.deal }
+    Hand.new(cards)
   end
 
   it "has exactly 5 cards" do

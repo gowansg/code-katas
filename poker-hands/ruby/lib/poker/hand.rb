@@ -3,7 +3,7 @@ module Poker
     attr_reader :cards
 
     def initialize(cards)
-      @cards = cards.sort
+      @cards = cards.take(5).sort
     end
 
     def rank

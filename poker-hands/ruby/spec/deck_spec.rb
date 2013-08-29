@@ -1,7 +1,8 @@
 require_relative "../lib/poker"
+include Poker
 
-describe Poker::Deck do
-  let(:deck) { Poker::Deck.new }
+describe Deck do
+  let(:deck) { Deck.new }
 
   describe "#deal(*cards)" do
     context "when no input is given" do
@@ -14,8 +15,8 @@ describe Poker::Deck do
 
     context "when a card has already been dealt" do
       it "raises a card already dealt error" do
-        card = deck.deal("5C")
-        expect(deck.deal("5C")).to raise_error Poker::CardAlreadyDealtError
+        card = deck.deal(Card.new(:spades, 5))
+        expect { deck.deal(card) }.to raise_error(CardAlreadyDealtError)
       end
     end
   end
