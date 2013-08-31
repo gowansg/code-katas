@@ -15,7 +15,8 @@ describe Deck do
 
     context "when a card has already been dealt" do
       it "raises a card already dealt error" do
-        card = deck.deal
+        card = {spades: 2}
+        deck.deal(card)
         expect { deck.deal(card) }.to raise_error(CardAlreadyDealtError)
       end
     end

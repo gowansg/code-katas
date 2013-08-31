@@ -8,7 +8,7 @@ module Poker
 
     def rank
       return @rank if @rank
-
+      @rank = Poker::Rank.new(self)
     end
   end
 end

@@ -1,10 +1,10 @@
 require_relative "../lib/poker"
 
 describe Poker::Card do
-  let(:card) { Poker::Card.new(:diamond, 13) }
+  let(:card) { Poker::Card.new(:diamonds, 13) }
 
   it "has a suit" do
-    expect(card.suit).to eql(:diamond)
+    expect(card.suit).to eql(:diamonds)
   end
 
   it "has a value" do
