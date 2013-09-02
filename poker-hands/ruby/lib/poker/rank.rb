@@ -2,18 +2,19 @@ module Poker
   class Rank
     attr_reader :value, :high_card, :kind
 
-    def initialize(hand)
-      rank(hand)
+    def initialize(cards)
+      rank(cards)
     end
 
     private
-    
-    def rank(hand)
+
+    def rank(cards)
       ranks = Ranks.constants
                    .collect { |const| Ranks.const_get(const) }
                    .select {  |c| c.class == Module }
+                   .sort {|c| c.value }
 
-      kind = ranks.find { |r| r.match?(hand) }
+      kind = ranks.find { |r| r.match?(cards) }
       @value = kind.value
       @high_card = kind.high_card
       @kind = kind

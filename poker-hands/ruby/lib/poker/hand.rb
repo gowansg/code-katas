@@ -1,5 +1,6 @@
 module Poker
   class Hand
+    include Poker
     attr_reader :cards
 
     def initialize(cards)
@@ -7,8 +8,7 @@ module Poker
     end
 
     def rank
-      return @rank if @rank
-      @rank = Poker::Rank.new(self)
+      @rank ||= Rank.new(@cards)
     end
   end
 end

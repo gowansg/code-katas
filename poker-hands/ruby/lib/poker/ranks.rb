@@ -15,8 +15,9 @@ module Poker
     module HighCard
       extend self
 
-      def match?(hand)
-        false
+      def match?(cards)
+        @cards = cards
+        true
       end
 
       def value
@@ -24,15 +25,23 @@ module Poker
       end
 
       def high_card
-
+        @cards.reverse
       end
     end
 
     module Pair
       extend self
 
-      def match?(hand)
-        true
+      def match?(cards)
+        @cards = cards
+        @pair = nil
+        @cards.each_index do |i| 
+          break if @pair || @cards.length - 1 == i
+          if @cards[i] == @cards[i + 1]
+            @pair = @cards[i] 
+            @cards.slice!(i, i+1)
+          end
+        end
       end
 
       def value
@@ -40,7 +49,21 @@ module Poker
       end
 
       def high_card
+        @card.reverse.unshift(@pair)
+      end
+    end
 
+    module TwoPairs
+      extend self
+
+      def match?(cards)
+      end
+
+      def value
+        RANK_VALUES[:two_pairs]
+      end
+
+      def high_card
       end
     end
   end

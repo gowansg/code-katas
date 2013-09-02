@@ -14,7 +14,14 @@ module Poker
     def deal(requested_cards={})
       return random_card if requested_cards.empty?
       
-      cards = requested_cards.collect { |k, v| Card.new(k, v) }
+      cards = requested_cards.collect do |k, v| 
+        if v.respond_to?(:collect) 
+          v.collect { |x| Card.new(k, x) }
+        else
+          Card.new(k, v)
+        end
+      end.flatten
+
       cards.each do |c|
         raise Poker::CardAlreadyDealtError, 
                 "#{c.to_s} has already been dealt" unless @cards.delete(c)
