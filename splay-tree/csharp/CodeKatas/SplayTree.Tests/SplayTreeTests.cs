@@ -112,6 +112,46 @@ namespace SplayTree.Tests
                 root = tree.ToString(TreeTraversal.PreOrder).First();
                 Assert.AreEqual('1', root);
             }
+
+            [Test]
+            public void ReturnsNullIfTheSearchTermCannotBeFound()
+            {
+                var tree = new SplayTree<int>(Enumerable.Range(1, 10).ToArray());
+                Assert.AreEqual(null, tree.Find(11));
+            }
+        }
+
+        [TestFixture]
+        public class TheBalanceProperty
+        {
+            [Test]
+            public void ReturnsAnIntegerIndicatingTheBalanceOfTheTree()
+            {
+                var tree = new SplayTree<int>(Enumerable.Range(5, 25).ToArray());
+                Assert.AreEqual(0, tree.Balance);
+            }
+        }
+
+        [TestFixture]
+        public class TheAddMethod
+        {
+            [Test]
+            public void AddsAGivenValueToTheSplayTree()
+            {
+
+            }
+        }
+
+        [TestFixture]
+        public class TheDeleteMethod
+        {
+            [Test]
+            public void RemovesTheGivenValueFromTheTree()
+            {
+                var tree = new SplayTree<int>(Enumerable.Range(100, 40).ToArray());
+                tree.Delete(110);
+                Assert.AreEqual(null, tree.Find(110));
+            }
         }
     }
 }
