@@ -1,6 +1,6 @@
 module Poker
   class Rank
-    attr_reader :value, :high_card, :kind
+    attr_reader :value, :high_cards, :kind
 
     def initialize(cards)
       rank(cards)
@@ -12,11 +12,11 @@ module Poker
       ranks = Ranks.constants
                    .collect { |const| Ranks.const_get(const) }
                    .select {  |c| c.class == Module }
-                   .sort {|c| c.value }
+                   .sort {|x,y| y.value <=> x.value }
 
       kind = ranks.find { |r| r.match?(cards) }
       @value = kind.value
-      @high_card = kind.high_card
+      @high_cards = kind.high_cards
       @kind = kind
     end
   end

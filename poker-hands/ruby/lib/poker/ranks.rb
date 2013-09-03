@@ -12,6 +12,12 @@ module Poker
       straight_flush: 9 
     }
 
+    protected
+    
+    def self.high_cards(cards)
+      cards.collect { |c| c.value }.reverse
+    end
+
     module HighCard
       extend self
 
@@ -24,8 +30,8 @@ module Poker
         RANK_VALUES[:high_card]
       end
 
-      def high_card
-        @cards.reverse
+      def high_cards
+        Ranks.high_cards(@cards)
       end
     end
 
@@ -34,22 +40,22 @@ module Poker
 
       def match?(cards)
         @cards = cards
-        @pair = nil
         @cards.each_index do |i| 
-          break if @pair || @cards.length - 1 == i
-          if @cards[i] == @cards[i + 1]
-            @pair = @cards[i] 
-            @cards.slice!(i, i+1)
+          break if @cards.length - 1 == i
+          if @cards[i].value == @cards[i + 1].value
+            @pair = @cards[i].value
+            break
           end
         end
+        !@pair.nil?
       end
 
       def value
         RANK_VALUES[:pair]
       end
 
-      def high_card
-        @card.reverse.unshift(@pair)
+      def high_cards
+        Ranks.high_cards(@cards).unshift(@pair).uniq
       end
     end
 
@@ -63,7 +69,8 @@ module Poker
         RANK_VALUES[:two_pairs]
       end
 
-      def high_card
+      def high_cards
+        Ranks.high_cards(@cards)
       end
     end
   end
