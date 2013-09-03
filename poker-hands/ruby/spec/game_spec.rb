@@ -1,6 +1,8 @@
-require_relative "../lib/poker"
+require "poker"
 
-describe Poker::Game do
+include Poker
+
+describe Game do
   describe ".simulate" do
     it "returns a winner" do
     end

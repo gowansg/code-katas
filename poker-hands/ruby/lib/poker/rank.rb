@@ -12,7 +12,7 @@ module Poker
       ranks = Ranks.constants
                    .collect { |const| Ranks.const_get(const) }
                    .select {  |c| c.class == Module }
-                   .sort {|x,y| y.value <=> x.value }
+                   .sort { |x,y| y.value <=> x.value }
 
       kind = ranks.find { |r| r.match?(cards) }
       @value = kind.value

@@ -11,7 +11,7 @@ module Poker
       end
     end
 
-    def deal(requested_cards={})
+    def deal(requested_cards = {})
       return random_card if requested_cards.empty?
       
       cards = requested_cards.collect do |k, v| 

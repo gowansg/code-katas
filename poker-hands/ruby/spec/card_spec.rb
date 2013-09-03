@@ -1,7 +1,9 @@
-require_relative "../lib/poker"
+require "poker"
 
-describe Poker::Card do
-  let(:card) { Poker::Card.new(:diamonds, 13) }
+include Poker
+
+describe Card do
+  let(:card) { Card.new(:diamonds, 13) }
 
   it "has a suit" do
     expect(card.suit).to eql(:diamonds)

@@ -4,7 +4,7 @@ module Poker
       instance_eval &block if block_given?
     end
 
-    def players(players=[])
+    def players(players = [])
       @players = players
     end
 

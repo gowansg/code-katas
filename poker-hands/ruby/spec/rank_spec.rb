@@ -1,4 +1,5 @@
-require_relative '../lib/poker'
+require "poker"
 
-describe Poker::Rank do
+include Poker
+describe Rank do
 end

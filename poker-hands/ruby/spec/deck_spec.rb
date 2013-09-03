@@ -1,4 +1,5 @@
-require_relative "../lib/poker"
+require "poker"
+
 include Poker
 
 describe Deck do
