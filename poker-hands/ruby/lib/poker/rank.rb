@@ -1,5 +1,6 @@
 module Poker
   class Rank
+    
     attr_reader :value, :high_cards, :kind
 
     def initialize(cards)

@@ -1,13 +1,10 @@
 module Poker
   class Deck
-    include Poker
 
     def initialize
-      card_values = (2..14).to_a
-      suits = [:diamonds, :hearts, :spades, :clubs]
       @cards = []
-      suits.each do |s| 
-        card_values.each { |v| @cards << Card.new(s, v) }
+      Card::SUITS.each do |s| 
+        Card::VALUES.each { |v| @cards << Card.new(s, v) }
       end
     end
 

@@ -1,6 +1,6 @@
 module Poker
   class Hand
-    include Poker
+    
     attr_reader :cards
 
     def initialize(cards)

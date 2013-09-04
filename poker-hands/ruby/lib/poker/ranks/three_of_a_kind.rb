@@ -1,19 +1,18 @@
 module Poker
   module Ranks
-    module HighCard
+    module ThreeOfAKind
       extend self
 
       def value
-        RANK_VALUES[:high_card]
+        RANKS[:three_of_a_kind]
       end
 
       def match?(cards)
-        @cards = cards
-        true
+        false
       end
 
       def high_cards
-        Ranks.high_cards(@cards)
+        Rank.high_cards(@cards)
       end
     end
   end

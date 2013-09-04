@@ -1,6 +1,7 @@
 module Poker
   class Card
     include Comparable
+    
     attr_reader :suit, :value
 
     def initialize(suit, value)

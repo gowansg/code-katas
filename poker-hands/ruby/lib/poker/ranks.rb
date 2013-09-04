@@ -14,9 +14,9 @@ module Poker
 
     protected
     
-      def self.high_cards(cards)
-        cards.collect { |c| c.value }.reverse
-      end
+    def self.high_cards(cards)
+      cards.collect { |c| c.value }.reverse
+    end
   end
 end
 

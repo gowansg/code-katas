@@ -8,7 +8,7 @@ shared_examples_for Ranks  do |cards, rank_kind, rank_value, high_cards|
     deck = Deck.new
     Hand.new(deck.deal(cards)).rank
   end
-
+  
   it "matches a hand that doesn't match any other rank" do
     expect(rank.kind).to eq(rank_kind)
   end
@@ -17,7 +17,7 @@ shared_examples_for Ranks  do |cards, rank_kind, rank_value, high_cards|
     expect(rank.value).to eq(rank_value)
   end
 
-  it "has a high card" do
+  it "has high cards" do
     expect(rank.high_cards).to eq(high_cards)
   end
 end
