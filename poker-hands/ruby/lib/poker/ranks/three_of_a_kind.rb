@@ -8,14 +8,7 @@ module Poker
       end
 
       def match?(cards)
-        index = Ranks.find_repeating_values(cards.collect { |c| c.value }, 3)
-        return false unless index
-        @repeated_value = cards[index].value
-        @cards = cards.select { |c| c.value != @repeated_value }
-      end
-
-      def high_cards
-        Ranks.high_cards(@cards).unshift(@repeated_value)
+        Ranks.find_repeating_values(cards.collect { |c| c.value }, 3)
       end
     end
   end

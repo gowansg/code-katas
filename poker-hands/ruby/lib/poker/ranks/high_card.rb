@@ -8,12 +8,7 @@ module Poker
       end
 
       def match?(cards)
-        @cards = cards
         true
-      end
-
-      def high_cards
-        Ranks.high_cards(@cards)
       end
     end
   end
