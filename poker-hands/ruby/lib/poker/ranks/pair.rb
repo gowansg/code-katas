@@ -2,7 +2,7 @@ module Poker
   module Ranks
     module Pair
       extend self
-
+      
       attr_reader :card_value
 
       def value
@@ -10,16 +10,11 @@ module Poker
       end
 
       def match?(cards)
-        @cards = cards
-        @card_value = nil
-        cards.each_index do |i| 
-          if cards.length - 1 != i && cards[i].value == cards[i + 1].value
-            @card_value = cards[i].value
-            @cards = cards.select { |c| c.value != @card_value } #remove the pair
-            break #stop at the first pair
-          end
-        end
-        !@card_value.nil?
+        index = Ranks.find_repeating_values(cards.collect { |c| c.value }, 2)
+        return false unless index
+        @card_value = cards[index].value
+        @cards = cards.select { |c| c.value != @card_value }
+        true
       end
 
       def high_cards

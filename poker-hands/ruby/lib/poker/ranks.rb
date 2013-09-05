@@ -20,7 +20,7 @@ module Poker
     def self.find_repeating_values(enum, num_of_repeats)
       enum.each_index do |i|
         return nil if i + num_of_repeats > enum.length
-        return i if enum[i...i+num_of_repeats].all? { |v| v == enum[i] }
+        return i if enum[i...(i+num_of_repeats)].all? { |v| v == enum[i] }
       end
     end
   end
