@@ -39,3 +39,13 @@ describe TwoPairs do
   high_cards = [8, 5, 9]
   it_behaves_like Ranks, cards, TwoPairs, RANK_VALUES[:two_pairs], high_cards
 end
+
+describe ThreeOfAKind do
+  cards = {clubs: 12, diamonds: 12, hearts: 12, spades: [3, 8]}
+  high_cards = [12, 8, 3]
+  it_behaves_like Ranks, 
+                  cards, 
+                  ThreeOfAKind, 
+                  RANK_VALUES[:three_of_a_kind], 
+                  high_cards
+end
