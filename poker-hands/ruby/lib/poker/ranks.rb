@@ -11,14 +11,6 @@ module Poker
       four_of_a_kind: 8,
       straight_flush: 9 
     }
-
-    #returns the value of the element at the start of a repeating series
-    def self.find_repeating_values(enum, num_of_repeats)
-      enum.each_index do |i|
-        return nil if i + num_of_repeats > enum.length
-        return enum[i] if enum[i...(i+num_of_repeats)].all? { |v| v == enum[i] }
-      end
-    end
   end
 end
 

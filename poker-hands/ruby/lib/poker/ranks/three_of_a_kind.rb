@@ -8,7 +8,7 @@ module Poker
       end
 
       def match?(cards)
-        Ranks.find_repeating_values(cards.collect { |c| c.value }, 3)
+        cards.collect { |c| c.value }.dups_in_a_row?(3)
       end
     end
   end

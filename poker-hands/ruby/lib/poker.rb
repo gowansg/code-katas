@@ -1,3 +1,4 @@
+require "core_ext/enumerable"
 require "poker/card"
 require "poker/deck"
 require "poker/exceptions"
