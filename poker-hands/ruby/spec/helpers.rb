@@ -5,23 +5,28 @@ module Helpers
     include Poker
 
     def straight_flush
-
+      cards = {spades: [3,2,4,14,5]}
+      Deck.new.deal(cards)
     end
 
     def four_of_a_kind
-
+      cards = {diamonds: 12, clubs: [4, 12], hearts: 12, spades: 12}
+      Deck.new.deal(cards)
     end
 
     def full_house
-
+      cards = {hearts: 12, clubs: 9, spades: [12, 9], diamonds: 12}
+      Deck.new.deal(cards)
     end
 
     def flush
-
+      cards = {diamonds: [10, 5, 3, 14, 2]}
+      Deck.new.deal(cards)
     end
 
     def straight
-
+      cards = {spades: [7, 8], clubs: 5, diamonds: [6, 4]}
+      Deck.new.deal(cards)
     end
 
     def three_of_a_kind

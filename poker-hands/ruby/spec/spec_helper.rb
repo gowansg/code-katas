@@ -2,6 +2,6 @@ require "rspec"
 require "poker"
 require "helpers"
 
-Rspec.configure do |config|
+RSpec.configure do |config|
   config.include(Helpers)
 end
