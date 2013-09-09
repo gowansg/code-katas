@@ -8,13 +8,10 @@ module Poker
       end
 
       def match?(cards)
-        cards.each_index do |i|
-          match = true if i == cards.length - 2
-          match = false unless cards[i].value - cards[i+1].value == 1
-        end
-
-        if match == false && cards[i] == 14
-          @cards = 
+        values = cards.collect { |c| c.value }
+        return true if values.sequential?
+        if values[0] == 14 && values.sequential?(1, 4)
+          cards = cards.push(cards[0]).drop(1)
         end
       end
     end
