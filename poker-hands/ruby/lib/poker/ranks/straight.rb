@@ -10,7 +10,7 @@ module Poker
       def match?(cards)
         values = cards.collect { |c| c.value }
         return true if values.sequential?
-        if values[0] == 14 && values.sequential?(1, 4)
+        if values[4] == 2 && values[0] == 14 && values.sequential?(1, 4)
           cards = cards.push(cards[0]).drop(1)
         end
       end

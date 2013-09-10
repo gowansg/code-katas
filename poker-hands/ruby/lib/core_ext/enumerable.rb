@@ -7,10 +7,11 @@ module Enumerable
     end
   end
 
-  #determines whether or not a given sequence is sequential
-  def sequential?(start = 0, stop = length)
-  	range = drop(start).take(stop)
+  #determines whether a given sequence is sequential
+  def sequential?(start = 0, len = length)
+  	range = drop(start).take(len)
     range.each_index do |i|
+      return false unless (range[i]).respond_to?(:-)
   		return true if i == range.length - 1
       return false unless (range[i] - range[i + 1]).abs == 1
   	end
