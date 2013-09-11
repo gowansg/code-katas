@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+$:.unshift(File.join(File.dirname(__FILE__), "/../lib"))
+
+require "optparse"
+require "poker"
+
+while line = gets
+  Poker::Parser.read(line) { |game_info| puts Poker::Game.simulate(game_info) }
+end

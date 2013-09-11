@@ -1,15 +1,13 @@
 module Poker
   class Game
-    def self.simulate(&block)
-      instance_eval &block if block_given?
+    def self.simulate(players)
+      
     end
 
-    def players(players = [])
-      @players = players
-    end
+    private 
 
-    def declare_winner
-      "#{winner} wins. - with #{hand}"
+    def declare_winner(player)
+      "#{player.key} wins. - with #{player.value}"
     end 
   end
 end
