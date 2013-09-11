@@ -2,9 +2,10 @@
 
 $:.unshift(File.join(File.dirname(__FILE__), "/../lib"))
 
-require "optparse"
 require "poker"
 
+include Poker
+
 while line = gets
-  Poker::Parser.read(line) { |game_info| puts Poker::Game.simulate(game_info) }
+  Parser.read(line) { |game_info| puts Game.simulate(game_info) }
 end

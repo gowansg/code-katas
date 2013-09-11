@@ -1,4 +1,5 @@
 require "poker"
+
 include Poker
 include Ranks
 include Helpers::Cards

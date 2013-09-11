@@ -5,7 +5,7 @@ include Poker
 describe Deck do
   let(:deck) { Deck.new }
 
-  describe "#deal(*cards)" do
+  describe "#deal" do
     context "when no input is given" do
       it "returns a random card that has not yet been dealt" do
         card = deck.deal
