@@ -1,7 +1,7 @@
 module Poker
-	class Parser
+	module Parser
     
-    CHAR_TO_SUITS = {
+    CHAR_TO_SUIT = {
       "H" => :hearts, 
       "D" => :diamonds, 
       "S" => :spades, 
@@ -16,38 +16,41 @@ module Poker
       "A" => 14
     }
     
-    def self.read(line)
-      game_input = line.split(" ")
-      raise PokerInputError, 
-        "The input: \"#{line}\" is not valid." unless game_info.length == 10
-      
+    def read(line)
+      game_input = line.split("  ").collect do |i| 
+        i.split(":").collect { |v| v.strip }
+      end
+
       game = Hash[game_input]
-      game.keys.each { |k|  k.slice!(k.length - 1) if k.end_with?(":") }
-      game.values.collect { |v| create_cards_hash(v) }
-      yield game
+      game.keys.each { |k| game[k] = create_cards_hash(game[k].split(" ")) }
+      game
     end
 
-    def create_card_hash(input)
-      values = input.split(" ")
+    private 
+
+    def create_cards_hash(values)
       cards = {}
+
       values.each do |card|
         suit = CHAR_TO_SUIT[card[1]]
         raise PokerInputError,
-          "\"#{suit}\" is not a recognized card suit" unless suit
+          "\"#{card[1]}\" is not a recognized card suit" unless suit
 
-        value = input[0].to_i unless CHAR_TO_VALUE[card[0]]
+        value = CHAR_TO_VALUE[card[0]] || card[0].to_i
         raise PokerInputError,
-          "\"#{value}\" is not a recognized card value" unless value
+          "\"#{card[0]}\" is not a recognized card value" unless value
 
-        curr_val = card[suit]
+        curr_val = cards[suit]
         if curr_val.nil?
-          card[suit] = value
-        elsif curr_val.respond_to(:<<)
-          card[suit] << value
+          cards[suit] = value
+        elsif curr_val.respond_to?(:shift)
+          cards[suit] = curr_val.shift(value)
         else
-          card[suit] = [curr_val, value]
+          cards[suit] = [curr_val, value]
         end
       end
+
+      cards
     end
 	end
 end

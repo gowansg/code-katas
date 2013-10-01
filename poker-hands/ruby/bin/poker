@@ -6,6 +6,12 @@ require "poker"
 
 include Poker
 
-while line = gets
-  Parser.read(line) { |game_info| puts Game.simulate(game_info) }
+while text = gets
+  result = Game.simulate do 
+    	       num_of_players 2
+             hand_size 5
+             scenario text
+           end
+
+  puts result
 end

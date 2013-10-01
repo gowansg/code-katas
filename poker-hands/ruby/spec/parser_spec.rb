@@ -1,30 +1,35 @@
 require "poker"
 
 include Poker
+include Parser
 
 describe Parser do
-  let(:valid_input) { "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH" }
-	
-  describe "::read" do
-		let(:block) { lambda{} }
+  describe "#read" do
+    let(:valid_input) { "Black: 2H 3D 5S 9C KD  White: 2C 3H 4S 8C AH" }
+    let(:invalid_suit) { valid_input.gsub!(/3D/, "3E") }
+    let(:invalid_value) { valid_input.gsub!(/3D/, "1E") }
+    
+    let(:black_hand) do 
+      {"Black" => {hearts: 2, diamonds: [3, 13], spades: 5, clubs: 9}} 
+    end
 
+    let(:white_hand) do
+      {"White" => {clubs: [2, 8], hearts: [3, 14], spades: 4}}
+    end
 		context "when given valid input" do
-			it "parses the input and yields the results to the given block" do
-				block.should_receive(:call)
-				Parser.read(valid_input) block
+			it "returns a Hash of player names and cards" do
+        expect(Parser.read(valid_input)).to eq(black_hand.merge(white_hand))
 			end
 		end
 
-    it "raises a PokerInputError if more than 2 players are given" do
-    end
+    context "when given invalid input" do
+      it "raises a PokerInputError for an invalid card suit" do
+        expect { Parser.read(invalid_suit) }.to raise_error(PokerInputError)
+      end
 
-    it "raises a PokerInputError if less than 2 players are given" do
+      it "raises a PokerInputError for an invalid card value" do
+        expect { Parser.read(invalid_value) }.to raise_error(PokerInputError)
+      end
     end
-
-    it "raises a PokerInputError if more than 5 cards per player are given" do
-    end
-
-    it "raises a PokerInputError if less than 5 cards per player are given" do
-    end
-	end
+  end
 end
