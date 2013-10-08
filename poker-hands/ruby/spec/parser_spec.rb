@@ -16,6 +16,7 @@ describe Parser do
     let(:white_hand) do
       {"White" => {clubs: [2, 8], hearts: [3, 14], spades: 4}}
     end
+    
     context "when given valid input" do
       it "returns a Hash of player names and cards" do
         expect(Parser.read(valid_input)).to eq(black_hand.merge(white_hand))

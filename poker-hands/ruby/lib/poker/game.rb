@@ -10,7 +10,7 @@ module Poker
         declare_tie
       end
     end
-
+    
     private 
 
     def self.declare_winner(name, hand)

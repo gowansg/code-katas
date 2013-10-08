@@ -14,7 +14,7 @@ module Poker
 
     def sort_hand(cards)
       @cards ||= cards.group_by { |c| c.value }
-                      .sort do |i1,i2| 
+                      .sort do |i1, i2| 
                         same_length = i1[1].length == i2[1].length
                         value1 = same_length ? i1[0] : i1[1].length
                         value2 = same_length ? i2[0] : i2[1].length
@@ -45,8 +45,7 @@ module Poker
                       .downcase
       
       card_name = @cards.first.to_s.split("of").first.capitalize
-
-      "#{rank_name}" + ": #{card_name if rank.kind == Ranks::HighCard}"
+      "#{rank_name}" + "#{": " + card_name if rank.kind == Ranks::HighCard}"
     end
   end
 end
