@@ -8,10 +8,9 @@ include Poker
 
 while text = gets
   result = Game.simulate do 
-    	       num_of_players 2
+             num_of_players 2
              hand_size 5
              scenario text
            end
-
   puts result
 end

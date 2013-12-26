@@ -33,7 +33,7 @@ module Poker
     end
 
     def to_s
-      "#{CARD_NAMES[@value]} of #{@suit}"
+      "#{@value > 10 ? CARD_NAMES[@value] : @value} of #{@suit}"
     end
 
     def <=>(other)

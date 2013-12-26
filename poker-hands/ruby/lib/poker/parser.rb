@@ -1,5 +1,5 @@
 module Poker
-	module Parser
+  module Parser
     
     CHAR_TO_SUIT = {
       "H" => :hearts, 
@@ -52,5 +52,5 @@ module Poker
 
       cards
     end
-	end
+  end
 end

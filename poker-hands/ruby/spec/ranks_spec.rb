@@ -9,7 +9,7 @@ shared_examples_for Ranks  do |cards, rank_kind, rank_value|
     Hand.new(cards).rank
   end
   
-  it "matches a hand that doesn't match any other rank" do
+  it "finds the highest valued rank for a hand" do
     expect(rank.kind).to eq(rank_kind)
   end
 
