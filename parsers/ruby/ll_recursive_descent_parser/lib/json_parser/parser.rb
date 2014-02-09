@@ -10,20 +10,16 @@ module Parser
   COMMA = ","
   T = "t"
   F = "f"
+  U = "u"
   TRUE = "true"
   FALSE = "false"
   NEGATIVE_SIGN = "-"
   DECIMAL = "."
+  ESCAPE = "\\"
   EOF = nil
 
-  def parse(input)
-    if File.exists?(input)
-      File.open(input, "r") do |file|
-        @input = file
-      end
-    else 
-      @input = input
-    end
+  def parse(input) 
+    @input = input
     @current_index = -1
     consume
     json?
@@ -36,7 +32,7 @@ module Parser
       "Encountered unexpected token: \"#{@current}\", Expected: \"#{token}\" " \
       "at index #{@current_index}" \
       unless @current == token
-    
+
     consume
   end
 
@@ -109,8 +105,27 @@ module Parser
 
   def string
     match(QUOTE)
-    consume while valid_character?
+    while @current != QUOTE
+      consume if valid_character?
+      escape if @current == ESCAPE
+    end
     match(QUOTE)
+  end
+
+  def escape
+    match(ESCAPE)
+    if @current == U
+      match(U)
+      4.times do 
+        raise InvalidUnicodeEscapeError, 
+              "\"#{@current}\" is not a valid hexadecimal digit" \
+              unless hex_digit?
+
+        consume 
+      end
+    elsif escape_character?
+      consume
+    end
   end
 
   def true_literal
@@ -129,14 +144,30 @@ module Parser
   end
 
   def white_space?
-    @current.match(/\s/)
+    match?(/\s/, "a white space character")
   end
 
   def valid_character?
-    @current.match(/[^\\"]/)
+    match?(/[^\\"]/, "a non-escape character")
   end
 
+  def escape_character?
+    match?(/[\s\"u\/\\]/, "an escape character")
+  end
+
+  def hex_digit?
+    digit? || match?(/[a-f]/i, "a hexadecimal digit")
+  end
   def digit?
-    @current.match(/\d/)
+    match?(/\d/, "digit")
+  end
+
+  def eof?
+    @current == EOF
+  end
+
+  def match?(regex, expected)
+    raise InvalidTokenError, "Encountered: EOF, expected: #{expected}" if eof?
+    @current.match(regex)
   end
 end
