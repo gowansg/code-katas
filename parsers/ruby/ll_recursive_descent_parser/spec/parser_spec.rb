@@ -12,6 +12,14 @@ describe Parser do
     it "parses unicode hex-digits" do
       expect(Parser.parse(%<["\\uF4A9"]>)).to be_true
     end
+
+    it "parses a backspace" do
+      expect(Parser.parse(%<["\\b"]>)).to be_true
+    end
+
+    it "parses a slash" do
+      expect(Parser.parse(%<["\\/"]>)).to be_true
+    end
   end
 
   context "when parsing objects" do
@@ -52,20 +60,55 @@ describe Parser do
       expect(Parser.parse("[[[]]]")).to be_true
     end
 
-    it "parses a true literal" do
-      expect(Parser.parse("[true]")).to be_true
-    end
-
-    it "parses a false literal" do
-      expect(Parser.parse("[false]")).to be_true
-    end
-
     it "parses a string" do
       expect(Parser.parse(%<["a nice simple string"]>)).to be_true
     end
 
     it "parses an integer" do
       expect(Parser.parse("[1]")).to be_true
+    end
+
+    it "parses a negative number" do
+      expect(Parser.parse("[-2]")).to be_true
+    end
+  end
+
+  context "when parsing literals" do
+    it "parses true" do
+      expect(Parser.parse("[true]")).to be_true
+      expect(Parser.parse(%<{"a": true}>)).to be_true
+    end
+
+    it "parses false" do
+      expect(Parser.parse("[false]")).to be_true
+      expect(Parser.parse(%<{"test": false}>)).to be_true
+    end
+
+    it "parses a null" do
+      expect(Parser.parse("[null]")).to be_true
+      expect(Parser.parse(%<{"property": null}>)).to be_true
+    end
+  end
+
+  context "when parsing scientific notation" do
+    it "parses an integer" do
+      expect(Parser.parse("[1e2]"))
+      expect(Parser.parse("[1E2]"))
+    end
+
+    it "parses a fraction" do
+      expect(Parser.parse("[2.32e23]"))
+      expect(Parser.parse("[2.32E23]"))
+    end
+
+    it "parses when a positive sign is included" do
+      expect(Parser.parse("[2e+3]"))
+      expect(Parser.parse("[2E+3]"))
+    end
+
+    it "parses when a negative sign is included" do
+      expect(Parser.parse("[6.23e-0]"))
+      expect(Parser.parse("[6.23E-0]"))
     end
   end
 
@@ -80,6 +123,10 @@ describe Parser do
 
     it "has unescaped backslashes" do
       expect { Parser.parse(%<{"\\": false}>)}.to raise_error(InvalidTokenError)
+    end
+
+    it "has fractions without a digit before the decimal" do
+      expect { Parser.parse("[.22]")}.to raise_error(InvalidTokenError)
     end
   end
 
